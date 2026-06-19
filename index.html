@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>IA Diabetes</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="card">
+    <h1>Diagnostico precoz de diabetes con IA</h1>
+    <p class="subtitulo">Sistema web con datos manuales y hardware simulado.</p>
+
+    <section class="formulario">
+      <h2>Datos del paciente</h2>
+
+      <label>Edad
+        <input id="edad" type="number" value="45">
+      </label>
+
+      <label>Glucosa (mg/dL)
+        <input id="glucosa" type="number" value="120">
+      </label>
+
+      <label>Presion arterial
+        <input id="presion" type="number" value="130">
+      </label>
+
+      <label>IMC
+        <input id="imc" type="number" value="28">
+      </label>
+
+      <label class="check">
+        <input id="antecedentes" type="checkbox">
+        Antecedentes familiares
+      </label>
+
+      <label class="check">
+        <input id="sedentarismo" type="checkbox">
+        Sedentarismo
+      </label>
+
+      <div class="botones">
+        <button onclick="diagnosticarManual()">Diagnosticar</button>
+        <button class="secundario" onclick="usarSimulador()">Usar hardware simulado</button>
+      </div>
+    </section>
+
+    <section id="resultado" class="resultado">
+      <h2>Resultado</h2>
+      <p>Ingresa los datos y presiona diagnosticar.</p>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
