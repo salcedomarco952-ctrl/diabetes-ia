@@ -5,19 +5,33 @@ function obtenerDatosFormulario() {
     presion: Number(document.getElementById("presion").value),
     imc: Number(document.getElementById("imc").value),
     antecedentes: document.getElementById("antecedentes").checked,
-    sedentarismo: document.getElementById("sedentarismo").checked
+    sedentarismo: document.getElementById("sedentarismo").checked,
+    muchaSed: document.getElementById("muchaSed").checked,
+    orinaFrecuente: document.getElementById("orinaFrecuente").checked,
+    perdidaPeso: document.getElementById("perdidaPeso").checked,
+    cansancio: document.getElementById("cansancio").checked
   };
 }
 
 function calcularRiesgo(datos) {
   let puntaje = 0;
 
-  if (datos.glucosa >= 126) puntaje += 35;
+  if (datos.glucosa >= 200) puntaje += 45;
+  else if (datos.glucosa >= 126) puntaje += 35;
+  else if (datos.glucosa >= 100) puntaje += 15;
+
   if (datos.presion >= 140) puntaje += 15;
   if (datos.imc >= 30) puntaje += 20;
   if (datos.edad >= 45) puntaje += 10;
   if (datos.antecedentes) puntaje += 10;
   if (datos.sedentarismo) puntaje += 10;
+
+  if (datos.muchaSed) puntaje += 10;
+  if (datos.orinaFrecuente) puntaje += 10;
+  if (datos.perdidaPeso) puntaje += 15;
+  if (datos.cansancio) puntaje += 5;
+
+  let esNino = datos.edad < 18;
 
   let nivel = "BAJO";
   let recomendacion = "Mantener monitoreo y habitos saludables.";
@@ -31,6 +45,22 @@ function calcularRiesgo(datos) {
     nivel = "MEDIO";
     recomendacion = "Solicitar control de glucosa y seguimiento preventivo.";
     clase = "riesgo-medio";
+  }
+
+  if (esNino) {
+    recomendacion =
+      "Paciente pediatrico: en ninos puede presentarse diabetes tipo 1 o tipo 2. " +
+      "Si hay mucha sed, orina frecuente, perdida de peso o cansancio excesivo, " +
+      "se recomienda evaluacion medica pediatrica lo antes posible. " +
+      recomendacion;
+  }
+
+  if (esNino && datos.glucosa >= 200 && (datos.muchaSed || datos.orinaFrecuente || datos.perdidaPeso)) {
+    nivel = "ALTO";
+    clase = "riesgo-alto";
+    recomendacion =
+      "ALERTA PEDIATRICA: glucosa muy elevada con sintomas compatibles. " +
+      "Acudir a evaluacion medica urgente. En ninos puede relacionarse especialmente con diabetes tipo 1.";
   }
 
   return { puntaje, nivel, recomendacion, clase };
@@ -85,6 +115,10 @@ function mostrarResultado(datos, prediccion) {
     <p><strong>Antecedentes:</strong> ${datos.antecedentes ? "Si" : "No"}</p>
     <p><strong>Sedentarismo:</strong> ${datos.sedentarismo ? "Si" : "No"}</p>
     <hr>
+    <p><strong>Mucha sed:</strong> ${datos.muchaSed ? "Si" : "No"}</p>
+<p><strong>Orina frecuente:</strong> ${datos.orinaFrecuente ? "Si" : "No"}</p>
+<p><strong>Perdida de peso:</strong> ${datos.perdidaPeso ? "Si" : "No"}</p>
+<p><strong>Cansancio excesivo:</strong> ${datos.cansancio ? "Si" : "No"}</p>
     <h3>Riesgo: ${prediccion.nivel}</h3>
     <p><strong>Puntaje:</strong> ${prediccion.puntaje}/100</p>
     <p><strong>Recomendacion:</strong> ${prediccion.recomendacion}</p>
@@ -92,7 +126,7 @@ function mostrarResultado(datos, prediccion) {
 }
 
 function validarDatos(datos) {
-  if (datos.edad < 18 || datos.edad > 100) {
+  if (datos.edad < 1 || datos.edad > 100) {
     return "La edad debe estar entre 18 y 100 años. Verifica el dato ingresado.";
   }
 
