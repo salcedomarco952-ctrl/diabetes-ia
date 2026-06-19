@@ -38,6 +38,14 @@ function calcularRiesgo(datos) {
 
 function diagnosticarManual() {
   const datos = obtenerDatosFormulario();
+
+  const error = validarDatos(datos);
+
+  if (error) {
+    mostrarAdvertencia(error);
+    return;
+  }
+
   const prediccion = calcularRiesgo(datos);
   mostrarResultado(datos, prediccion);
 }
@@ -73,12 +81,45 @@ function mostrarResultado(datos, prediccion) {
     <p><strong>Edad:</strong> ${datos.edad} anos</p>
     <p><strong>Glucosa:</strong> ${datos.glucosa} mg/dL</p>
     <p><strong>Presion:</strong> ${datos.presion} mmHg</p>
-    <p><strong>IMC:</strong> ${datos.imc}</p>
+    <p><strong>Indice de masa corporal:</strong> ${datos.imc}</p>
     <p><strong>Antecedentes:</strong> ${datos.antecedentes ? "Si" : "No"}</p>
     <p><strong>Sedentarismo:</strong> ${datos.sedentarismo ? "Si" : "No"}</p>
     <hr>
     <h3>Riesgo: ${prediccion.nivel}</h3>
     <p><strong>Puntaje:</strong> ${prediccion.puntaje}/100</p>
     <p><strong>Recomendacion:</strong> ${prediccion.recomendacion}</p>
+  `;
+}
+
+function validarDatos(datos) {
+  if (datos.edad < 18 || datos.edad > 100) {
+    return "La edad debe estar entre 18 y 100 años. Verifica el dato ingresado.";
+  }
+
+  if (datos.glucosa < 50 || datos.glucosa > 500) {
+    return "La glucosa debe estar entre 50 y 500 mg/dL. El valor ingresado no es clínicamente válido.";
+  }
+
+  if (datos.presion < 70 || datos.presion > 250) {
+    return "La presión arterial debe estar entre 70 y 250 mmHg. Verifica la lectura.";
+  }
+
+  if (datos.imc < 10 || datos.imc > 70) {
+    return "El IMC debe estar entre 10 y 70. El valor ingresado no parece realista.";
+  }
+
+  return null;
+}
+
+function mostrarAdvertencia(mensaje) {
+  const resultado = document.getElementById("resultado");
+
+  resultado.className = "resultado riesgo-alto";
+
+  resultado.innerHTML = `
+    <h2>Advertencia</h2>
+    <p><strong>Dato no válido:</strong></p>
+    <p>${mensaje}</p>
+    <p>Corrige el valor antes de realizar el diagnóstico.</p>
   `;
 }
