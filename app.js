@@ -126,8 +126,8 @@ function mostrarResultado(datos, prediccion) {
 }
 
 function validarDatos(datos) {
-  if (datos.edad < 1 || datos.edad > 100) {
-    return "La edad debe estar entre 18 y 100 años. Verifica el dato ingresado.";
+  if ( datos.edad > 100) {
+    return "La edad no debe superar los 100 años. Verifica el dato ingresado.";
   }
 
   if (datos.glucosa < 50 || datos.glucosa > 500) {
