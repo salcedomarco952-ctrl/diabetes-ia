@@ -15,7 +15,7 @@ body {
 }
 
 .card {
-  max-width: 850px;
+  max-width:1180px;
   margin: auto;
   background: #efe3d2;
   padding: 35px;
@@ -159,24 +159,56 @@ hr {
   }
 }
 
-.imagen-diagnostico {
+.zona-diagnostico {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 22px;
+  align-items: stretch;
   margin-top: 30px;
+}
+
+.imagen-diagnostico {
   padding: 22px;
-  border-radius: 14px;
+  border-radius: 16px;
   background: #e8d8c6;
   border: 1px solid #c8ad91;
   text-align: center;
+  box-shadow: inset 0 0 0 1px rgba(255, 248, 239, 0.45);
+}
+
+.imagen-diagnostico h2 {
+  margin-top: 0;
+  color: #4f3a2f;
+}
+
+.marco-imagen {
+  overflow: hidden;
+  border-radius: 18px;
+  border: 6px solid #efe3d2;
+  box-shadow: 0 18px 35px rgba(55, 39, 29, 0.32);
+  background: #d6bea5;
 }
 
 .imagen-diagnostico img {
+  display: block;
   width: 100%;
-  max-width: 420px;
-  border-radius: 14px;
-  margin-top: 10px;
-  box-shadow: 0 12px 28px rgba(55, 39, 29, 0.25);
+  height: 360px;
+  object-fit: cover;
 }
 
 .imagen-diagnostico p {
+  margin-top: 16px;
   color: #5c4538;
   font-weight: bold;
+  line-height: 1.4;
+}
+
+@media (max-width: 900px) {
+  .zona-diagnostico {
+    grid-template-columns: 1fr;
+  }
+
+  .imagen-diagnostico img {
+    height: 280px;
+  }
 }
