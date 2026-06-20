@@ -99,6 +99,79 @@ function usarSimulador() {
 
   const prediccion = calcularRiesgo(datos);
   mostrarResultado(datos, prediccion);
+
+function simularArduino() {
+  const lecturaArduino = generarLecturaArduino();
+
+  document.getElementById("edad").value = lecturaArduino.edad;
+  document.getElementById("glucosa").value = lecturaArduino.glucosa;
+  document.getElementById("presion").value = lecturaArduino.presion;
+  document.getElementById("imc").value = lecturaArduino.imc;
+  document.getElementById("antecedentes").checked = lecturaArduino.antecedentes;
+  document.getElementById("sedentarismo").checked = lecturaArduino.sedentarismo;
+  document.getElementById("muchaSed").checked = lecturaArduino.muchaSed;
+  document.getElementById("orinaFrecuente").checked = lecturaArduino.orinaFrecuente;
+  document.getElementById("perdidaPeso").checked = lecturaArduino.perdidaPeso;
+  document.getElementById("cansancio").checked = lecturaArduino.cansancio;
+
+  const prediccion = calcularRiesgo(lecturaArduino);
+  mostrarResultado(lecturaArduino, prediccion);
+
+  alert("Arduino simulado conectado. Lectura recibida correctamente.");
+}
+
+function generarLecturaArduino() {
+  const perfiles = ["BAJO", "MEDIO", "ALTO"];
+  const perfil = perfiles[Math.floor(Math.random() * perfiles.length)];
+
+  if (perfil === "BAJO") {
+    return {
+      edad: numeroAleatorio(18, 40),
+      glucosa: numeroAleatorio(75, 110),
+      presion: numeroAleatorio(100, 125),
+      imc: numeroAleatorio(18, 24),
+      antecedentes: false,
+      sedentarismo: false,
+      muchaSed: false,
+      orinaFrecuente: false,
+      perdidaPeso: false,
+      cansancio: false
+    };
+  }
+
+  if (perfil === "MEDIO") {
+    return {
+      edad: numeroAleatorio(35, 60),
+      glucosa: numeroAleatorio(111, 160),
+      presion: numeroAleatorio(126, 145),
+      imc: numeroAleatorio(25, 32),
+      antecedentes: Math.random() > 0.5,
+      sedentarismo: true,
+      muchaSed: Math.random() > 0.5,
+      orinaFrecuente: Math.random() > 0.5,
+      perdidaPeso: false,
+      cansancio: true
+    };
+  }
+
+  return {
+    edad: numeroAleatorio(45, 85),
+    glucosa: numeroAleatorio(180, 280),
+    presion: numeroAleatorio(145, 180),
+    imc: numeroAleatorio(30, 42),
+    antecedentes: true,
+    sedentarismo: true,
+    muchaSed: true,
+    orinaFrecuente: true,
+    perdidaPeso: Math.random() > 0.4,
+    cansancio: true
+  };
+}
+
+function numeroAleatorio(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 }
 
 function mostrarResultado(datos, prediccion) {

@@ -212,3 +212,9 @@ hr {
     height: 280px;
   }
 }
+
+.nota-hardware {
+  color: #6b5a50;
+  font-size: 14px;
+  margin-top: 10px;
+}
