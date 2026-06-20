@@ -123,8 +123,25 @@ function mostrarResultado(datos, prediccion) {
     <p><strong>Puntaje:</strong> ${prediccion.puntaje}/100</p>
     <p><strong>Recomendacion:</strong> ${prediccion.recomendacion}</p>
   `;
+
+  cambiarImagenDiagnostico(prediccion.nivel);
 }
 
+function cambiarImagenDiagnostico(nivel) {
+  const imagen = document.getElementById("imagenRiesgo");
+  const texto = document.getElementById("textoImagen");
+
+  if (nivel === "BAJO") {
+    imagen.src = "imagenes/bajo.jpg";
+    texto.textContent = "Riesgo bajo: se recomienda mantener controles preventivos.";
+  } else if (nivel === "MEDIO") {
+    imagen.src = "imagenes/medio.jpg";
+    texto.textContent = "Riesgo medio: se recomienda seguimiento y control médico.";
+  } else if (nivel === "ALTO") {
+    imagen.src = "imagenes/alto.jpg";
+    texto.textContent = "Riesgo alto: se recomienda evaluación médica prioritaria.";
+  }
+}
 function validarDatos(datos) {
   if ( datos.edad > 100) {
     return "La edad no debe superar los 100 años. Verifica el dato ingresado.";
